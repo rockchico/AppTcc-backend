@@ -107,6 +107,40 @@ class ImagesController extends AppController {
 
     }
 
+    public function get() {
+
+        $this->request->allowMethod(['post']);
+
+        $post = null;
+        $jsonResponse = (object) array();
+
+        if ($this->request->is('post')) {
+
+            $post = $this->request->data();
+
+
+            $this->log("get image post", "debug");
+            $this->log($post, "debug");
+
+
+            $image = $this->Images->get($post['id'], ['contain' => ['Places']]);
+
+            $this->log("image", "debug");
+            $this->log($image, "debug");
+
+            if ($image) {
+                $jsonResponse->success = "yes";
+                $jsonResponse->image = $image;
+            } else {
+                $jsonResponse->success = "no";
+            }
+        }
+
+        $this->set('jsonResponse', $jsonResponse);
+
+
+    }
+
 
 
 
