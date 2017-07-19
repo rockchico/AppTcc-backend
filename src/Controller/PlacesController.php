@@ -20,8 +20,6 @@ class PlacesController extends AppController {
         $jsonPost = null;
         $jsonResponse = (object) array();
 
-        $place = $this->Places->newEntity();
-
         if ($this->request->is('post')) {
 
             $jsonPost = $this->request->data();
@@ -42,6 +40,48 @@ class PlacesController extends AppController {
 
         }
         $this->set('jsonResponse', $jsonResponse);
+    }
+
+    public function getjsonlist() {
+
+
+        $this->autoRender = false;
+        $this->response->type('json');
+
+
+        $jsonPost = null;
+        $jsonResponse = (object) array();
+        $places = (object) array();
+
+        if ($this->request->is('post')) {
+
+            $jsonPost = $this->request->data();
+
+            $this->log("jsonPost", "debug");
+            $this->log($jsonPost, "debug");
+
+
+            if($jsonPost) {
+
+                //$jsonResponse->success = "yes";
+
+                //$places = $this->Places->find('all')->where(['name' => "%".$jsonPost['query']."%"]);
+
+                $places = $this->Places->find('all');
+
+
+
+                //$jsonResponse->places = $places;
+
+            }
+
+        }
+        //$this->set('jsonResponse', $jsonResponse);
+
+
+        $jsonResponse = json_encode($places);
+        $this->response->body($jsonResponse);
+
     }
 
 
